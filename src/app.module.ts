@@ -8,6 +8,9 @@ import { User } from './entities/User'
 import { SocketController } from './socket/socket.controller';
 import { SocketService } from './socket/socket.service';
 import { ChatGateway } from './events.gateway';
+import { Room } from './entities/Room';
+import { Message } from './entities/Message';
+import { Participants } from './entities/Participants';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -17,7 +20,7 @@ import { ChatGateway } from './events.gateway';
     username: 'root',
     password: '180496Mega-',
     database: 'chatWidget',
-    entities: [User],
+    entities: [User, Room, Message, Participants],
     synchronize: true,
   }),
 ],
