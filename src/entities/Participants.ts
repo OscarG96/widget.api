@@ -3,7 +3,7 @@ import { User } from "./User";
 import { Room } from "./Room"
 
 @Entity()
-export class Message {
+export class Participants {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -15,8 +15,5 @@ export class Message {
     @OneToOne(type => Room)
     @JoinColumn()
     room: Room;
-
-    @Column('text')
-    message: string;
 
 }
