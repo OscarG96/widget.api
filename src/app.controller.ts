@@ -10,10 +10,4 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('/createuser')
-  createUser(@Body() data: any): any {
-    console.log(data)
-    return true
-    // return this.appService.createUser()
-  }
 }

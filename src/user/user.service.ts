@@ -14,5 +14,9 @@ export class UserService {
         console.log('user' ,user)
         return this.usersRepository.save(user)
     }
+
+    getOne(email: string): any {
+        return this.usersRepository.findOne({email: email})
+    }
 }
 

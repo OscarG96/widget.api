@@ -13,6 +13,11 @@ import { Message } from './entities/Message';
 import { Participants } from './entities/Participants';
 import { Agent } from './entities/Agent'
 import { UsersModule } from './user/user.module';
+import { MessageController } from './message/message.controller';
+import { MessageService } from './message/message.service';
+import { AgentController } from './agent/agent.controller';
+import { AgentService } from './agent/agent.service';
+import { AgentModule } from './agent/agent.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -24,9 +29,9 @@ import { UsersModule } from './user/user.module';
     database: 'chatWidget',
     entities: [User, Room, Message, Participants, Agent],
     synchronize: true,
-  }), UsersModule
+  }), UsersModule, AgentModule
 ],
-  controllers: [AppController, WidgetController, SocketController],
-  providers: [AppService, WidgetService, SocketService, ChatGateway],
+  controllers: [AppController, WidgetController, SocketController, MessageController,],
+  providers: [AppService, WidgetService, SocketService, ChatGateway, MessageService,],
 })
 export class AppModule {}

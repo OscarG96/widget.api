@@ -9,11 +9,14 @@ export class Agent {
     @Column({
         length: 100
     })
-    name: string;
+    displayName: string;
 
     @Column("text")
     email: string;
 
-    @Column("text")
+    @Column({ nullable: true, type: 'text' })
     company: string;
+
+    @Column("text")
+    uid: string;
 }
