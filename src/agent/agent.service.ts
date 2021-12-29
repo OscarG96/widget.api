@@ -21,4 +21,6 @@ export class AgentService {
     getOne(uid: string): any {
         return this.agentRepository.findOne({uid: uid})
     }
+
+    
 }
