@@ -28,17 +28,19 @@ export class ChatGateway {
         // return data;
     }
 
-    @SubscribeMessage('message-agent')
-    async handleMessageAgent(@MessageBody() message: any): Promise<any> {
-        console.log('message', message)
-        return this.server.emit(`messageFromAgent-${message.uuid}`)
-        // return data;
-    }
-
     private sendToAgent(data) {
         console.log('send to agent', data)
 
         this.server.emit(`agent-${data.agent}`, data)
     }
+
+    @SubscribeMessage('message-agent')
+    async handleMessageAgent(@MessageBody() data: any): Promise<any> {
+        console.log('message', data)
+        return this.server.emit(`messageFromAgent-${data.uuid}`, data.message)
+        // return data;
+    }
+
+    
     
 }
