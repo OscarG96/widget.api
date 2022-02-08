@@ -21,7 +21,9 @@ export class WidgetService {
     // }
     async selectAgent(): Promise<any> {
         const entityManager = getManager(); 
-        return entityManager.createQueryBuilder().select().from(Agent, "agent").orderBy('RANDOM()').limit(1).execute();
+        // return entityManager.createQueryBuilder().select("MIN(agent.connections)", "min").from(Agent, "agent");
+        return entityManager.query('SELECT * FROM agent ORDER BY connections ASC LIMIT 1', [])
+        // agent.getRawOne();
         // return this.agentRepository.createQueryBuilder().orderBy('RANDOM()').limit(1).execute();
     }
 }
