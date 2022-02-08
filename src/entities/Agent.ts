@@ -19,4 +19,7 @@ export class Agent {
 
     @Column("text")
     uid: string;
+
+    @Column("int")
+    connections: number
 }

@@ -1,4 +1,5 @@
-import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { Logger } from "@nestjs/common";
+import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from 'socket.io';
 import { MessageDto } from "./message/message.dto";
 import { WidgetService } from "./widget/widget.service";
@@ -6,11 +7,25 @@ import { WidgetService } from "./widget/widget.service";
 // const io = new Server({ /* options */ });
 
 @WebSocketGateway({ cors: true })
-export class ChatGateway {
+export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     constructor(
         private readonly widgetService: WidgetService
     ) {}
+
+    private logger: Logger = new Logger('WebSocketGateway')
+
+    handleDisconnect(client: any) {
+        this.logger.log(`Client disconnected: ${client.id}` )
+    }
+
+    
+    handleConnection(client: any, ...args: any[]) {
+        this.logger.log(`Client connected: ${client.id}` )
+    }
+
+    
+
     @WebSocketServer()
     server: Server;
 
@@ -18,6 +33,8 @@ export class ChatGateway {
     async handleMessage(@MessageBody() message: MessageDto): Promise<any> {
         console.log('message', message)
         if (message.agent) {
+            const _sockets = await this.server.fetchSockets()
+            // console.log('_sockets', _sockets)
             return this.sendToAgent(message)
         } 
         //select agent, send message and return data to user 
