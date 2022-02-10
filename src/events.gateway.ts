@@ -3,6 +3,7 @@ import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage
 import { Server } from 'socket.io';
 import { MessageDto } from "./message/message.dto";
 import { WidgetService } from "./widget/widget.service";
+import { AgentService } from "./agent/agent.service";
 
 // const io = new Server({ /* options */ });
 
@@ -10,19 +11,23 @@ import { WidgetService } from "./widget/widget.service";
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     constructor(
-        private readonly widgetService: WidgetService
+        private readonly widgetService: WidgetService,
+        private readonly agentSerive: AgentService,
     ) {}
 
     private logger: Logger = new Logger('WebSocketGateway')
 
+    handleConnection(client: any, ...args: any[]) {
+        this.logger.log(`Client connected: ${client.handshake.auth.token}` )
+        // this.agentSerive.setOnline(client.handshake.auth.token, true)
+    }
+
     handleDisconnect(client: any) {
         this.logger.log(`Client disconnected: ${client.id}` )
+        // this.agentSerive.setOnline(client.handshake.auth.token, false)
     }
 
     
-    handleConnection(client: any, ...args: any[]) {
-        this.logger.log(`Client connected: ${client.id}` )
-    }
 
     
 

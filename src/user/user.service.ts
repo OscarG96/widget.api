@@ -7,7 +7,7 @@ import { User } from '../entities/User';
 export class UserService {
     constructor(
         @InjectRepository(User)
-        private usersRepository: Repository<User>,
+        private usersRepository: Repository<User>
     ) {}
 
     createOne(user: any): any {
@@ -18,5 +18,6 @@ export class UserService {
     getOne(email: string): any {
         return this.usersRepository.findOne({email: email})
     }
+
 }
 

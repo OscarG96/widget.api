@@ -22,4 +22,7 @@ export class Agent {
 
     @Column("int")
     connections: number
+
+    @Column('boolean')
+    online: boolean
 }
