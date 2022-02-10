@@ -19,12 +19,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     handleConnection(client: any, ...args: any[]) {
         this.logger.log(`Client connected: ${client.handshake.auth.token}` )
-        // this.agentSerive.setOnline(client.handshake.auth.token, true)
+        this.agentSerive.setOnline(client.handshake.auth.token, true)
     }
 
     handleDisconnect(client: any) {
-        this.logger.log(`Client disconnected: ${client.id}` )
-        // this.agentSerive.setOnline(client.handshake.auth.token, false)
+        this.logger.log(`Client disconnected: ${client.handshake.auth.token}` )
+        this.agentSerive.setOnline(client.handshake.auth.token, false)
     }
 
     

@@ -23,7 +23,7 @@ export class AgentService {
     }
 
     setOnline(uid: string, online: boolean): any {
-        return this.agentRepository.update(uid, { online })
+        return this.agentRepository.update({uid}, { online })
     }
 
     
