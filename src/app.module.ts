@@ -18,7 +18,6 @@ import { MessageService } from './message/message.service';
 import { AgentController } from './agent/agent.controller';
 import { AgentService } from './agent/agent.service';
 import { AgentModule } from './agent/agent.module';
-import { AgentGateway } from './agent.gateway';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -32,7 +31,7 @@ import { AgentGateway } from './agent.gateway';
     synchronize: true,
   }), UsersModule, AgentModule
 ],
-  controllers: [AppController, WidgetController, SocketController, MessageController,],
-  providers: [AppService, WidgetService, SocketService, ChatGateway, MessageService, AgentGateway],
+  controllers: [AppController, WidgetController, SocketController, MessageController],
+  providers: [AppService, WidgetService, SocketService, ChatGateway, MessageService],
 })
 export class AppModule {}
