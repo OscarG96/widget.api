@@ -1,6 +1,6 @@
 import { Logger } from "@nestjs/common";
-import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
-import { Server } from 'socket.io';
+import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer, ConnectedSocket } from "@nestjs/websockets";
+import { Server, Socket } from 'socket.io';
 import { MessageDto } from "./message/message.dto";
 import { WidgetService } from "./widget/widget.service";
 import { AgentService } from "./agent/agent.service";
@@ -36,17 +36,21 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('message')
     async handleMessage(@MessageBody() message: MessageDto): Promise<any> {
-        console.log('message', message)
+        // console.log('message', message)
+        this.logger.log('HandleMessage', message)
         if (message.agent) {
             const _sockets = await this.server.fetchSockets()
             // console.log('_sockets', _sockets)
             return this.sendToAgent(message)
         } 
         //select agent, send message and return data to user 
-        const agent = await this.widgetService.selectAgent()
-        console.log('agent', agent)
+        // const agent = await this.widgetService.selectAgent()
+        const agent = await this.agentSerive.selectAgent()
+        console.log('agent', agent.uid)
+        this.logger.log('AgentSelected')
         // message["agent"] = agent
-        return { message, agent }
+        // const event = 'message'
+        // return this.server.emit(`server-${}`)
         // return data;
     }
 

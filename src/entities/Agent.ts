@@ -20,9 +20,9 @@ export class Agent {
     @Column("text")
     uid: string;
 
-    @Column("int")
+    @Column({ type: 'int', default: 0 })
     connections: number
 
-    @Column('boolean')
+    @Column({ type: 'boolean', default: false })
     online: boolean
 }
