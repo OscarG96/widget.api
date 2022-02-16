@@ -34,6 +34,7 @@ export class AgentService {
         // const entityManager = getManager(); 
         // return entityManager.createQueryBuilder().select("MIN(agent.connections)", "min").from(Agent, "agent");
         // return entityManager.query('SELECT * FROM agent ORDER BY connections ASC LIMIT 1', [])
+        this.logger.log('SelectingAgent')
         const agent = await getRepository(Agent)
         .createQueryBuilder('agent')
         .where('agent.online = :online', { online: true })

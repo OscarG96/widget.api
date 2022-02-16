@@ -9,9 +9,4 @@ export class WidgetController {
     // sendMessage(@Body() message: string, email: string): any {
     //     return this.widgetService.sendMessage(message, email)
     // }
-
-    @Get('/selectAgent')
-    selectAgent() {
-        return this.widgetService.selectAgent()
-    }
 }

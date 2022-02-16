@@ -36,28 +36,26 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('message')
     async handleMessage(@MessageBody() message: MessageDto): Promise<any> {
-        // console.log('message', message)
         this.logger.log('HandleMessage', message)
-        if (message.agent) {
-            const _sockets = await this.server.fetchSockets()
-            // console.log('_sockets', _sockets)
-            return this.sendToAgent(message)
+        let agent = { uid: '' }
+        if (!message.agent) {
+            agent = await this.agentSerive.selectAgent()
+            this.logger.log(`AgentSelected -- ${agent.uid}`)
+            this.agentAssigned({ uuid: message.uuid, agent: agent.uid })
         } 
-        //select agent, send message and return data to user 
-        // const agent = await this.widgetService.selectAgent()
-        const agent = await this.agentSerive.selectAgent()
-        console.log('agent', agent.uid)
-        this.logger.log('AgentSelected')
-        // message["agent"] = agent
+        return this.sendToAgent(message, agent.uid)
         // const event = 'message'
         // return this.server.emit(`server-${}`)
         // return data;
     }
 
-    private sendToAgent(data) {
-        console.log('send to agent', data)
+    private sendToAgent(message, agent) {
+        this.logger.log(`Message to Agent ${JSON.stringify(message)}`)
+        this.server.emit(`agent-${agent}`, message)
+    }
 
-        this.server.emit(`agent-${data.agent}`, data)
+    private agentAssigned(data: any): any {
+        return this.server.emit(`agent-assigned-${data.uuid}`, data)
     }
 
     @SubscribeMessage('message-agent')
