@@ -37,20 +37,21 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @SubscribeMessage('message')
     async handleMessage(@MessageBody() message: MessageDto): Promise<any> {
         this.logger.log('HandleMessage', message)
-        let agent = { uid: '' }
+        let agentUID = message.agent || null;
         if (!message.agent) {
-            agent = await this.agentSerive.selectAgent()
-            this.logger.log(`AgentSelected -- ${agent.uid}`)
-            this.agentAssigned({ uuid: message.uuid, agent: agent.uid })
+            const agent = await this.agentSerive.selectAgent()
+            agentUID = agent.uid
+            this.logger.log(`AgentSelected -- ${agentUID}`)
+            this.agentAssigned({ uuid: message.uuid, agent: agentUID })
         } 
-        return this.sendToAgent(message, agent.uid)
+        return this.sendToAgent(message, agentUID)
         // const event = 'message'
         // return this.server.emit(`server-${}`)
         // return data;
     }
 
     private sendToAgent(message, agent) {
-        this.logger.log(`Message to Agent ${JSON.stringify(message)}`)
+        this.logger.log(`Message to Agent ${JSON.stringify(message)}, agent ${agent}`)
         this.server.emit(`agent-${agent}`, message)
     }
 
