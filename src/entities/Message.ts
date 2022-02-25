@@ -8,15 +8,16 @@ export class Message {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @OneToOne(type => User)
-    @JoinColumn()
-    user: User;
+    @Column('text')
+    sender: string;
 
-    @OneToOne(type => Room)
-    @JoinColumn()
-    room: Room;
+    @Column('text')
+    receiver: string;
 
     @Column('text')
     message: string;
+
+    @Column('text')
+    date: Date
 
 }

@@ -4,6 +4,7 @@ import { Server, Socket } from 'socket.io';
 import { MessageDto } from "./message/message.dto";
 import { WidgetService } from "./widget/widget.service";
 import { AgentService } from "./agent/agent.service";
+import { MessageService } from "./message/message.service";
 
 // const io = new Server({ /* options */ });
 
@@ -13,6 +14,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     constructor(
         private readonly widgetService: WidgetService,
         private readonly agentSerive: AgentService,
+        private readonly messageService: MessageService
     ) {}
 
     private logger: Logger = new Logger('WebSocketGateway')
@@ -43,7 +45,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             agentUID = agent.uid
             this.logger.log(`AgentSelected -- ${agentUID}`)
             this.agentAssigned({ uuid: message.uuid, agent: agentUID })
-        } 
+        }
+        const messageToSave = {
+            sender: message.email,
+            receiver: agentUID,
+            message: message.message,
+            date: message.date
+        }
+        await this.messageService.saveMessage(messageToSave) 
         return this.sendToAgent(message, agentUID)
         // const event = 'message'
         // return this.server.emit(`server-${}`)
@@ -62,6 +71,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @SubscribeMessage('message-agent')
     async handleMessageAgent(@MessageBody() data: any): Promise<any> {
         console.log('message', data)
+        // const messageToSave = {
+        //     sender: data.agent,
+        //     receiver
+
+        // }
         return this.server.emit(`messageFromAgent-${data.uuid}`, data.message)
         // return data;
     }

@@ -4,4 +4,5 @@ export class MessageDto {
     readonly agent: string
     readonly uuid: string
     readonly username: string
+    readonly date: Date
 }

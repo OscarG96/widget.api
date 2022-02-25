@@ -3,16 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Message } from '../entities/Message';
 import { UserService } from '../user/user.service';
+import { MessageDto } from './message.dto';
 
 @Injectable()
 export class MessageService {
-    // constructor(
-    //     @InjectRepository(Message)
-    //     private messageRepository: Repository<Message>,
-    //     private readonly userService: UserService
-    // ) {}
+    constructor(
+        @InjectRepository(Message)
+        private messageRepository: Repository<Message>,
+        private readonly userService: UserService
+    ) {}
 
-    // saveMessage(message) {
-    //     return this.messageRepository.save(message)
-    // }
+    saveMessage(message) {
+        return this.messageRepository.save(message)
+    }
+    
 }
