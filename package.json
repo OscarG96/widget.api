@@ -1,0 +1,22 @@
+{
+  "name": "widget.api",
+  "version": "1.0.0",
+  "description": "A Chat widget app",
+  "main": "main.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OscarG96/widget.api.git"
+  },
+  "author": "OscarG96",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OscarG96/widget.api/issues"
+  },
+  "homepage": "https://github.com/OscarG96/widget.api#readme"
+}
